@@ -64,13 +64,25 @@ app.post('/addbot', async ({ body }) => {
   
 
 
-app.get('/get', async () => {
+  app.get('/get', async () => {
     const bots = await Bot.find();
   
     let pocketMoney = 0;
     let bankMoney = 0;
     let sessionEarnings = 0;
     let totalHourlyRate = 0;
+    const currentTime = new Date();
+  
+    // ตรวจสอบและอัปเดต status ของบอทที่ไม่ได้ส่งข้อมูลมาใน 6 นาที
+    bots.forEach(bot => {
+      const lastUpdated = new Date(bot.last_updated); // สมมติว่า `last_updated` คือเวลาที่บอทส่งข้อมูลล่าสุด
+      const diffMinutes = (currentTime - lastUpdated) / 60000; // คำนวณเวลาเป็นนาที
+  
+      if (diffMinutes > 6) {
+        bot.status = 0; // อัปเดตสถานะเป็น 0 ถ้าเกิน 6 นาที
+        bot.save(); // บันทึกการเปลี่ยนแปลงในฐานข้อมูล
+      }
+    });
   
     const data = bots.map(bot => {
       const hourly_rate = (bot.money_hand || 0) + (bot.money_bank || 0);

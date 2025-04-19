@@ -1,4 +1,3 @@
-// models/Bot.ts
 import mongoose from 'mongoose';
 
 const BotSchema = new mongoose.Schema({
@@ -8,7 +7,8 @@ const BotSchema = new mongoose.Schema({
   money_bank: Number,
   prev_money_hand: Number,
   prev_money_bank: Number,
-  status: Number,
+  status: { type: Number, default: 1 }, // ค่า default = 1
+  last_updated: { type: Date, default: Date.now } // ฟิลด์ใหม่เพื่อเก็บเวลาที่บอทอัปเดตล่าสุด
 }, { timestamps: true });
 
 export const Bot = mongoose.model('Bot', BotSchema);

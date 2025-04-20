@@ -18,7 +18,6 @@ export const Bot = mongoose.model('Bot', BotSchema);
 
 const BotxpSchema = new mongoose.Schema({
     username_bot: { type: String, required: true, unique: true },
-    money_pocket: Number,
     money_hand: Number,
     money_bank: Number,
     xp: Number,

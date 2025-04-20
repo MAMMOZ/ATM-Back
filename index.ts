@@ -123,7 +123,7 @@ app.post('/addbot', async ({ body }) => {
 
 
   app.post('/addbotxp', async ({ body }) => {
-    const { username_bot, money_pocket, money_hand, money_bank, xp, xp_totel, status } = body;
+    const { username_bot, money_hand, money_bank, xp, xp_totel, status } = body;
   
     if (!username_bot) {
       return { success: false, message: 'username_bot is required' };
@@ -132,7 +132,6 @@ app.post('/addbot', async ({ body }) => {
     const existingBot = await Botxp.findOne({ username_bot });
   
     let updateData = {
-      money_pocket,
       money_hand,
       money_bank,
       xp,
@@ -151,7 +150,6 @@ app.post('/addbot', async ({ body }) => {
   }, {
     body: t.Object({
         username_bot: t.String(),
-        money_pocket: t.Number(),
         money_hand: t.Number(),
         money_bank: t.Number(),
         xp: t.Number(),

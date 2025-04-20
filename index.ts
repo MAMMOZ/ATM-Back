@@ -145,8 +145,15 @@ app.post('/addbot', async ({ body }) => {
         ...updateData
       };
     }
+
+    const updatedBot = await Botxp.findOneAndUpdate(
+      { username_bot },
+      updateData,
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    );
+
   
-    return { success: true, bot: updateData };
+    return { success: true, bot: updatedBot };
   }, {
     body: t.Object({
         username_bot: t.String(),
